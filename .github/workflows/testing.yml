@@ -1,0 +1,45 @@
+name: Testing workflow
+
+on: [push]
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Install clang-format - Style Format Checking"
+        run: sudo apt update && sudo apt install clang
+      - name: "Run clang-format - Style checking"
+        run: clang-format -i src/*.hpp src/*.cpp tests/*.cpp
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Install necessary dependencies for C++"
+        run: sudo apt update && sudo apt install cmake gcc libeigen3-dev libyaml-cpp-dev libboost-all-dev
+      - name: "Create build folder"
+        run: mkdir build
+      - name: "Run cmake"
+        working-directory: ./build
+        run: cmake ..
+      - name: "Build make"
+        working-directory: ./build
+        run: make
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Install necessary dependencies for C++"
+        run: sudo apt update && sudo apt install cmake gcc libeigen3-dev libyaml-cpp-dev libboost-all-dev
+      - name: "Create build folder"
+        run: mkdir build
+      - name: "Run cmake"  
+        working-directory: ./build
+        run: cmake ..
+      - name: "Make"
+        working-directory: ./build
+        run: make
+      - name: "Test"
+        working-directory: ./build
+        run: ./testsidemade
