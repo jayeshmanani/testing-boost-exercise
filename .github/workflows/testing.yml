@@ -7,9 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: "Install clang-format - Style Format Checking"
-        run: sudo apt update && sudo apt install clang
-      - name: "Run clang-format - Style checking"
+      - name: "Install clang-format for Style Format Checking"
+        run: |
+          sudo apt update
+          sudo apt install clang-format
+      - name: "Run clang-format for Style Format checking"
         run: clang-format -i src/*.hpp src/*.cpp tests/*.cpp
   build:
     runs-on: ubuntu-latest
