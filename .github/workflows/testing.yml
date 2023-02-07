@@ -41,7 +41,9 @@ jobs:
         run: cmake ..
       - name: "Make"
         working-directory: ./build
-        run: make
-      - name: "Test"
-        working-directory: ./build
-        run: ./testsidemade
+        run: make -j4
+      - name: "Run Test"
+        run: cd build && make test
+      # - name: "Test"
+      #   working-directory: ./build
+      #   run: ./testsidemade
